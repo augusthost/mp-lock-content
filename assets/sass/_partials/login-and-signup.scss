@@ -1,0 +1,26 @@
+#mp-login-form,
+#forget-password-form,
+#reset-password-form,
+#mp-signup-form{
+    .input-group{
+        max-width:350px;
+        width:100%;
+    }
+    input{
+        transition: all ease 0.5s;
+        border:1px solid #ddd;
+    }
+
+    input:focus{
+        border:1px solid var(--main-color);
+    }
+
+    .input-group.error input{
+        border:1px solid red;
+    }
+
+    button[type="submit"][disabled]{
+        background:#ddd;
+        cursor: not-allowed;
+    }
+}
