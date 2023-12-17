@@ -25,3 +25,13 @@ function hide_admin_bar_for_subscribers() {
     }
 }
 add_action('after_setup_theme', 'hide_admin_bar_for_subscribers');
+
+
+// Hide wp-login.php
+function custom_login_page() {
+    if (strpos($_SERVER['REQUEST_URI'], '/wp-login.php') !== false) {
+        wp_redirect(home_url('/login/'));
+        exit();
+    }
+}
+add_action('init', 'custom_login_page');
