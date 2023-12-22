@@ -27,11 +27,15 @@ function hide_admin_bar_for_subscribers() {
 add_action('after_setup_theme', 'hide_admin_bar_for_subscribers');
 
 
-// Hide wp-login.php
-function custom_login_page() {
-    if (strpos($_SERVER['REQUEST_URI'], '/wp-login.php') !== false) {
-        wp_redirect(home_url('/login/'));
+// Redirect from /wp-login.php/ to /login/ with ability to logout & redirect 
+add_action('init', 'mp_custom_login');
+function mp_custom_login() {
+    global $pagenow;
+    if ($pagenow === 'wp-login.php' && empty($_REQUEST['action'])) {
+        wp_redirect('/login/');
+        exit();
+    } elseif ($pagenow === 'wp-login.php?action=logout' && $_REQUEST['action'] === 'logout') {
+        wp_redirect('/');
         exit();
     }
 }
-add_action('init', 'custom_login_page');

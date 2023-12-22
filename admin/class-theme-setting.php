@@ -34,21 +34,11 @@ class MPPluginSetting extends WPSetting
             'Lock Content', // Menu title
             'Lock Content', // Menu label
             'manage_options', // Capability required to access the menu
-            'lock-content', // Menu slug
-            '', // Callback function to redirect to the desired page
-            'dashicons-smiley', // Icon URL or Dashicons class
+            'settings-page', // Menu slug
+            [$this, 'settings_page'],
+            'dashicons-lock', // Icon URL or Dashicons class
             20 // Menu position
         );
-
-        add_submenu_page(
-            'lock-content', // Parent menu slug
-            'Settings', // Submenu title
-            'Setttings', // Submenu label
-            'manage_options', // Capability required to access the submenu
-            'settings-page', // Callback function to render the settings page (same as parent)
-            [$this, 'settings_page']
-          );
-
     }
 
     /**
