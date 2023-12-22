@@ -11,7 +11,7 @@ const plugins = [{
 
 
 const dirsToExclude  = ['assets', 'node_modules', 'view', 'Views', 'views'];
-const filesToExclude = [];
+const filesToExclude = ['mp-lock-content.php'];
 
 const lineNumbers = (needle, haystack) => haystack
     .split(/^/gm)
