@@ -49,6 +49,11 @@ global $mppluginSetting; // we'll need this below
     width:100%;
 }
 
+.tab_content input{
+    min-width: 300px;
+    padding:5px;
+}
+
 </style>
 
 <div class="wrapper">
