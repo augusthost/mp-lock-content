@@ -99,7 +99,7 @@ jQuery(function ($) {
 
         // validate email
         if (username.includes('@')) {
-            if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(username)) {
+            if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$/.test(username)) {
                 showErrorMessage($(this), 'Email address is invalid.');
                 disableFormSubmit(forgetPasswordFormId);
                 return;

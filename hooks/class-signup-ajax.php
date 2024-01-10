@@ -63,6 +63,9 @@ class MPSignupAjax
 
         // Update user email meta
         update_user_meta($user, 'user_email', $this->email);
+
+        // Lock user by default
+        update_user_meta($user, '_is_disabled', 1);
         
         $this->sendVerificationEmail($user);
 

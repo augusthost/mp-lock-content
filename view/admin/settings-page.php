@@ -84,6 +84,14 @@ global $mppluginSetting; // we'll need this below
 						</label>
 					</td>
 			</tr>
+            <tr>
+				<th scope="row" valign="top">Disabled Message</th>
+					<td>
+						<label>
+                            <input name="<?= $mppluginSetting->get_field_name('disabled_message'); ?>" value="<?= $mppluginSetting->get_setting('disabled_message'); ?>" id="" />
+						</label>
+					</td>
+			</tr>
             </tbody>
             </table>
         </div>

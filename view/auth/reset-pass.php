@@ -18,9 +18,8 @@
 			<input type="hidden" name="key" value="<?= $_GET['key'] ?? ''; ?>">
 			<input type="hidden" name="login" value="<?= $_GET['login'] ?? ''; ?>">
 				<button type="submit" class="block border-0 w-full bg-[#f7b134] rounded text-white"> Reset </button>
-                <div class="mp-loading" style="display:none;"><span class="loader"></span></div>
+				<div class="mp-loading my-2" style="display:none; margin-top:20px;"><span class="loader"></span></div>
 			</div>
 		</form>
-		<div class="mp-loading" style="display:none;"><span class="loader"></span></div>
 	</div>
 </div>

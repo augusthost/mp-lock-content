@@ -1,6 +1,6 @@
 <?php
 
-namespace MP\inc;
+namespace MP\hooks;
 
 if (! defined('ABSPATH')) {
     exit; // Exit if accessed directly.
@@ -15,9 +15,9 @@ class MPForgotPasswrodAjax
         add_action('wp_ajax_nopriv_lostpassword', [$this, 'lostpassword_callback']);
     }
 
-    public function log_wp_mail_errors( $wp_error ) {
-        write_log( 'WP Mail Error: ' . $wp_error->get_error_message() );
-    }
+    // public function log_wp_mail_errors( $wp_error ) {
+    //     error_log( 'WP Mail Error: ' . $wp_error->get_error_message() );
+    // }
     
 
     public function lostpassword_callback()
@@ -31,7 +31,7 @@ class MPForgotPasswrodAjax
         }
 
         if ( ! $user_data ) {
-            wp_send_json_error( 'Invalid username or email' );
+            wp_send_json_error( ['message' => 'Invalid username or email'] );
         }
 
         // Generate a password reset key
@@ -42,9 +42,8 @@ class MPForgotPasswrodAjax
 
         $reset_url = home_url('/login/?action=rp&key='.$key.'&login='.rawurlencode( $user_data->user_login ));
 
-        add_action( 'wp_mail_failed', [$this,'log_wp_mail_errors'], 10, 1 );
-
-
+        // add_action( 'wp_mail_failed', [$this,'log_wp_mail_errors'], 10, 1 );
+        
         // Send the password reset email
         $subject = 'Password Reset';
         $message = 'Dear '.$user_data->user_login . ','; 
@@ -53,14 +52,14 @@ class MPForgotPasswrodAjax
         $message .= '<br /><br />Best Regards,';
         $message .= '<br />'.get_bloginfo('name');
         
-        $headers = array( 'Content-Type: text/html; charset=UTF-8' );
-        $send_email = wp_mail( $user_data->user_email, $subject, $message, $headers );
+        $headers    = array( 'Content-Type: text/html; charset=UTF-8' );
+        $send_email = wp_mail( $user_data->user_login, $subject, $message, $headers );
         if ( $send_email ) {
             wp_send_json_success( 'Password reset email sent' );
             exit;
         } 
             
-        wp_send_json_error( 'Failed to send password reset email' );
+        wp_send_json_error( ['message' => 'Failed to send password reset email'] );
         
     }
 }

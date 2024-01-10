@@ -101,7 +101,7 @@ jQuery(function ($) {
 		}
 
 		// validate email
-		if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/.test(email)) {
+		if (!/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,})+$/.test(email)) {
 			showErrorMessage($(this), 'Email address is invalid.');
 			disableFormSubmit(formId);
 			return;
