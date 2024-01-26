@@ -64,7 +64,7 @@ global $mppluginSetting; // we'll need this below
 
     <div class="tabs">
         <span class="tab">General</span>
-        <span class="tab">Others</span>
+        <span class="tab">Email</span>
     </div>
     <div class="tab_content my-2">
         <div class="tab_item">
@@ -101,7 +101,9 @@ global $mppluginSetting; // we'll need this below
             </table>
         </div>
         <div class="tab_item">
-            <h1>Others</h1>
+            <h1>Email</h1>
+            <hr />
+            <p><a href="<?= $mppluginSetting->get_customizer_link(); ?>">Go To Email Templates</a></p>
         </div>
     </div>
 

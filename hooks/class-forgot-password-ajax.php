@@ -47,7 +47,7 @@ class MPForgotPasswrodAjax
         // Send the password reset email
         $subject = 'Password Reset';
         $message = 'Dear '.$user_data->user_login . ','; 
-        $message .= '<br /> You can click the following link to reset your password:';
+        $message .= '<br /><br /> You can click the following link to reset your password:';
         $message .= '<br /><a href="'.$reset_url.'">Reset Password Link</a>';
         $message .= '<br /><br />Best Regards,';
         $message .= '<br />'.get_bloginfo('name');

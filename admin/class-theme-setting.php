@@ -59,6 +59,20 @@ class MPPluginSetting extends WPSetting
         }
     }
 
+
+    public function get_customizer_link() {
+        $link = add_query_arg(
+            array(
+                'url'             => urlencode( site_url( '/?mailtpl_display=true' ) ),
+                'return'          => urlencode( admin_url() ),
+                'mailtpl_display' => 'true'
+            ),
+            'customize.php'
+        );
+    
+        return $link;
+    }
+
     
 }
 
