@@ -57,7 +57,7 @@ class MPFilterContent{
 
     protected function getPreviewContent($content){
         $content_length = strlen($content);
-        $half           = (int)$content_length / 2;
+        $half           = (int)$content_length / 1.5;
         $preview        = substr($content, 0, (int)$half);
         return $preview;
     }
