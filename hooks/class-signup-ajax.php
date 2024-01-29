@@ -53,17 +53,26 @@ class MPSignupAjax
         if (strlen($this->password) < 6) {
             wp_send_json_error(['message'=>'Password must be at least 6 characters long']);
         }
-    
-        $user = wp_create_user($this->email, $this->password);
+
+        $username = sanitize_user(current(explode('@', $this->email)));
+
+        // Check if the username already exists
+        if (username_exists($username)) {
+            // If the username exists, append a number to make it unique
+            $i = 1;
+            while (username_exists($username . $i)) {
+                $i++;
+            }
+            $username .= $i;
+        }
+
+        $user = wp_create_user($username, $this->password, $this->email);
     
         if (is_wp_error($user)) {
             $error_message = $user->errors['existing_user_login'] ? $user->errors['existing_user_login'][0] : 'Error occure while signing up your account.';
             wp_send_json_error(['message' => $error_message]);
         }
-
-        // Update user email meta
-        update_user_meta($user, 'user_email', $this->email);
-
+        
         // Lock user by default
         update_user_meta($user, '_is_disabled', 1);
         

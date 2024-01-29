@@ -1,10 +1,16 @@
 <?php
 
+use MP\services\MPEmailService;
+
 if (!defined('ABSPATH')) {
     die('Direct access forbidden.');
 }
 
 global $mppluginSetting; // we'll need this below
+
+$emailService   = new MPEmailService();
+$email_template = $emailService->getTemplate('approved');
+$welcome_email  = $email_template['mail_body'];
 ?>
 <style>
     .wrapper {
@@ -102,8 +108,25 @@ global $mppluginSetting; // we'll need this below
         </div>
         <div class="tab_item">
             <h1>Email</h1>
-            <hr />
-            <p><a href="<?= $mppluginSetting->get_customizer_link(); ?>">Go To Email Templates</a></p>
+            <hr class="my-8" />
+            <h4><a href="<?= $mppluginSetting->get_customizer_link(); ?>">Email Template</a></h4>
+            <hr class="my-8">
+            <h4>Email Content</h4>
+             <select name="email-content" id="email-content">
+             <option default>Select</option>
+             <option value="welcome">Welcome</option>
+             </select>
+             <div class="my-8 hidden" style="max-width:400px;width:100%;" data-target="welcome">
+                <div class="my-2">
+                    <h2 class="text-2xl">Welcome Email</h2>
+                </div>
+                <div class="my-2">
+                    <input type="text" name="<?= $mppluginSetting->get_field_name('mail_subject'); ?>" class="w-full" style="max-width:100%; width:100%;" value="<?= !empty($mppluginSetting->get_setting('mail_subject')) ? $mppluginSetting->get_setting('mail_subject') : 'Welcome to MPEVCA'; ?>" placeholder="Email Subject">
+                </div>
+                <div class="my-2">
+                    <textarea rows="4" name="<?= $mppluginSetting->get_field_name('mail_body'); ?>" class="w-full" style="max-width:100%; width:100%;" placeholder="Email Text"><?= !empty($mppluginSetting->get_setting('mail_body')) ? $mppluginSetting->get_setting('mail_body') : $welcome_email; ?></textarea>
+                </div>
+             </div>
         </div>
     </div>
 
@@ -149,6 +172,14 @@ global $mppluginSetting; // we'll need this below
         }
 
         tabUI();
+
+
+        // Email Selector 
+        $("#email-content").on("change", function(){
+            const target = $(this).val();
+            $(`div[data-target='${target}']`).toggleClass('hidden');
+        })
+
 
     })
     
