@@ -89,6 +89,7 @@ $welcome_email  = $email_template['mail_body'];
                             $categories = get_categories();
                             foreach($categories as $category):
                             ?>
+                            <option class="none">None</option>
                             <option value="<?= $category->term_id; ?>"  <?= $mppluginSetting->get_setting('locked_cat') == $category->term_id ? 'selected' : ''; ?> ><?= $category->name; ?></option>
                             <?php endforeach; ?>
                            </select>
@@ -96,10 +97,18 @@ $welcome_email  = $email_template['mail_body'];
 					</td>
 			</tr>
             <tr>
-				<th scope="row" valign="top">Disabled Message</th>
+				<th scope="row" valign="top">Number of paragraphs to limit</th>
 					<td>
-						<label>
-                            <input name="<?= $mppluginSetting->get_field_name('disabled_message'); ?>" value="<?= $mppluginSetting->get_setting('disabled_message'); ?>" id="" />
+						<label for="paragraph-num">
+                            <input name="<?= $mppluginSetting->get_field_name('limit_paragraph_num'); ?>" value="<?= $mppluginSetting->get_setting('limit_paragraph_num'); ?>" id="paragraph-num" />
+                        </label>
+					</td>
+			</tr>
+            <tr>
+				<th scope="row" valign="top">User Disabled Message</th>
+					<td>
+						<label for="disable-message">
+                            <input name="<?= $mppluginSetting->get_field_name('disabled_message'); ?>" value="<?= $mppluginSetting->get_setting('disabled_message'); ?>" id="disable-message" />
 						</label>
 					</td>
 			</tr>

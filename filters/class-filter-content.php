@@ -55,10 +55,20 @@ class MPFilterContent{
         return $preview_and_lock;
     }
 
+    /**
+     *  Get N paragraphs
+     */
+    function getNParagraphs(string $html, $num) {
+        preg_match_all('/<[^>]+>.*?<\/[^>]+>/', $html, $matches);
+        $result = implode("\n", array_slice($matches[0], 0, $num));
+        return $result;
+    }
+
     protected function getPreviewContent($content){
-        $content_length = strlen($content);
-        $half           = (int)$content_length / 1.5;
-        $preview        = substr($content, 0, (int)$half);
+        if(empty($content)) return '';
+        global $mppluginSetting;
+        $num = $mppluginSetting->get_setting('limit_paragraph_num') ? $mppluginSetting->get_setting('limit_paragraph_num') : 2;
+        $preview = $this->getNParagraphs($content, $num);
         return $preview;
     }
 }
