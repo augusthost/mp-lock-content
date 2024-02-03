@@ -100,7 +100,7 @@ $welcome_email  = $email_template['mail_body'];
 				<th scope="row" valign="top">Number of paragraphs to limit</th>
 					<td>
 						<label for="paragraph-num">
-                            <input name="<?= $mppluginSetting->get_field_name('limit_paragraph_num'); ?>" value="<?= $mppluginSetting->get_setting('limit_paragraph_num'); ?>" id="paragraph-num" />
+                            <input style="min-width:20px;width: 48px;" name="<?= $mppluginSetting->get_field_name('limit_paragraph_num'); ?>" value="<?= $mppluginSetting->get_setting('limit_paragraph_num'); ?>" id="paragraph-num" />
                         </label>
 					</td>
 			</tr>
