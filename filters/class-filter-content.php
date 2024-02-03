@@ -2,6 +2,8 @@
 
 namespace MP\filters;
 
+use DOMDocument;
+use DOMXPath;
 use MP\services\MPMiddleware;
 
 class MPFilterContent{
@@ -33,6 +35,25 @@ class MPFilterContent{
         }
 
         return false;
+    }
+
+    protected function isElementorPage($html){
+        $dom = new DOMDocument();
+
+        libxml_use_internal_errors(true);
+
+        // Load HTML content
+        $dom->loadHTML($html);
+
+        libxml_use_internal_errors(false);
+
+        // Create DOMXPath object
+        $xpath = new DOMXPath($dom);
+
+        // Find the element with class 'elementor-text-editor'
+        $element = $xpath->query('//div[contains(@class, "elementor-text-editor")]');
+
+        return $element->length > 0;
     }
     
     public function mp_filter_post_content($content){
@@ -67,9 +88,14 @@ class MPFilterContent{
     protected function getPreviewContent($content){
         if(empty($content)) return '';
         global $mppluginSetting;
-        $num = $mppluginSetting->get_setting('limit_paragraph_num') ? $mppluginSetting->get_setting('limit_paragraph_num') : 2;
-        $preview = $this->getNParagraphs($content, $num);
-        return $preview;
+        $num = $mppluginSetting->get_setting('limit_paragraph_num') ? $mppluginSetting->get_setting('limit_paragraph_num') : 4;
+
+        // If Elementor Page
+        if($this->isElementorPage($content)){
+            return $this->getNParagraphs($content, $num + 12);
+        }
+
+        return $this->getNParagraphs($content, $num);
     }
 }
 
