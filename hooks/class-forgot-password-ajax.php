@@ -15,9 +15,9 @@ class MPForgotPasswrodAjax
         add_action('wp_ajax_nopriv_lostpassword', [$this, 'lostpassword_callback']);
     }
 
-    // public function log_wp_mail_errors( $wp_error ) {
-    //     error_log( 'WP Mail Error: ' . $wp_error->get_error_message() );
-    // }
+    public function log_wp_mail_errors( $wp_error ) {
+        error_log( 'WP Mail Error: ' . $wp_error->get_error_message() );
+    }
     
 
     public function lostpassword_callback()
@@ -53,14 +53,12 @@ class MPForgotPasswrodAjax
         $message .= '<br />'.get_bloginfo('name');
         
         $headers    = array( 'Content-Type: text/html; charset=UTF-8' );
-        $send_email = wp_mail( $user_data->user_login, $subject, $message, $headers );
+        $send_email = wp_mail( $user_data->user_email, $subject, $message, $headers );
         if ( $send_email ) {
             wp_send_json_success( 'Password reset email sent' );
             exit;
         } 
-            
         wp_send_json_error( ['message' => 'Failed to send password reset email'] );
-        
     }
 }
 
