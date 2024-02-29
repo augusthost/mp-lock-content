@@ -1,7 +1,7 @@
 <?php
 
 
-require_once MP_LOCK_CONTENT_PATH . '/dev-mode.php';
+// require_once MP_LOCK_CONTENT_PATH . '/dev-mode.php';
 require_once MP_LOCK_CONTENT_PATH . '/shortcodes/class-login-shortcode.php';
 require_once MP_LOCK_CONTENT_PATH . '/shortcodes/class-signup-shortcode.php';
 require_once MP_LOCK_CONTENT_PATH . '/shortcodes/class-account-shortcode.php';
