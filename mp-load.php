@@ -17,11 +17,11 @@ require_once MP_LOCK_CONTENT_HOOKS_DIR . '/class-init-hook.php';
 require_once MP_LOCK_CONTENT_HOOKS_DIR . '/class-reset-password.php';
 require_once MP_LOCK_CONTENT_HOOKS_DIR . '/class-check-email-verification.php';
 require_once MP_LOCK_CONTENT_HOOKS_DIR . '/class-send-email-after-enable.php';
+require_once MP_LOCK_CONTENT_HOOKS_DIR . '/class-user-columns.php';
 
 
 require_once MP_LOCK_CONTENT_FILTERS_DIR . '/class-filter-content.php';
 require_once MP_LOCK_CONTENT_FILTERS_DIR . '/class-filter-disable-message.php';
-
 
 // Admin
 require_once MP_LOCK_CONTENT_PATH . '/admin/class-wpsetting.php';

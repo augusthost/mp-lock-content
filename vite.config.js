@@ -4,9 +4,6 @@ const plugin_name = 'mp-lock';
 
 export default defineConfig({
     build: {
-      watch: {
-        include: ['./view/**/*.php'], // Specify the directory to watch
-      },
       rollupOptions: {
         input: {
           app: './assets/js/app.js',

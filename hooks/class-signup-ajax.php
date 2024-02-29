@@ -11,6 +11,10 @@ class MPSignupAjax
 {    
     protected $email;
     protected $password;
+    protected $organization;
+    protected $phone;
+    protected $first_name;
+    protected $last_name;
 
     public function __construct()
     {
@@ -43,9 +47,29 @@ class MPSignupAjax
             wp_send_json_error('Invalid nonce');
         }
     
-        $this->email    = sanitize_email($_POST['log']);
-        $this->password = sanitize_text_field($_POST['pwd']);
-    
+        $this->email        = sanitize_email($_POST['log']);
+        $this->password     = sanitize_text_field($_POST['pwd']);
+        $this->organization = sanitize_text_field($_POST['organization']);
+        $this->phone        = sanitize_text_field($_POST['phone']);
+        $this->first_name   = sanitize_text_field($_POST['first_name']);
+        $this->last_name    = sanitize_text_field($_POST['last_name']);
+
+        if(empty($this->email)){
+            wp_send_json_error(['message'=>'Email is required']);
+        }
+
+        if(empty($this->organization)){
+            wp_send_json_error(['message'=>'Organization is required']);
+        }
+
+        if(empty($this->first_name)){
+            wp_send_json_error(['message'=>'First Name is required']);
+        }
+
+        if(empty($this->last_name)){
+            wp_send_json_error(['message'=>'Last Name is required']);
+        }
+
         if (!is_email($this->email)) {
             wp_send_json_error(['message'=>'Invalid email address']);
         }
@@ -75,10 +99,15 @@ class MPSignupAjax
         
         // Lock user by default
         update_user_meta($user, '_is_disabled', 1);
+        // Update user metas
+        update_user_meta($user, 'organization', $this->organization);
+        update_user_meta($user, 'phone', $this->phone);
+        update_user_meta($user, 'first_name', $this->first_name);
+        update_user_meta($user, 'last_name', $this->last_name);
         
         $this->sendVerificationEmail($user);
 
-        wp_send_json_success([ 'message' => 'Successfully registered. Please check your email for verify your email address.']);
+        wp_send_json_success([ 'message' => 'Successfully registered. Please check your email to verify your email address.']);
     }
 }
 

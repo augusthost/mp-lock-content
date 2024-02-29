@@ -1,3 +1,5 @@
+import { disableFormSubmit, enableFormSubmit, loading, resetForm, showErrorMessage, validatePhone } from "../helper";
+
 /* ------------------------------- *
  * 
  * Signup Form Ajax
@@ -5,48 +7,14 @@
  --------------------------------- */
 jQuery(function ($) {
 
-	/* -----------------Helper----------------- */
-
-	const disableFormSubmit = (formId) => {
-		const submitBtn = document.querySelector(`${formId} button[type='submit']`)
-		submitBtn.disabled = true;
-	}
-
-	const enableFormSubmit = (formId) => {
-		const form = document.querySelector(formId + ' .input-group');
-		if (form.classList.contains('error')) return;
-		const submitBtn = document.querySelector(formId + ' button[type="submit"]');
-		submitBtn.disabled = false;
-	}
-
-	const resetForm = (formId) => {
-		const signupError = document.querySelector(`${formId} .signup-error`);
-		signupError.style.display = 'none';
-	}
-
-	const showErrorMessage = (ele, msg) => {
-		const inputGroup = ele.closest(".input-group");
-		inputGroup.addClass('error');
-		inputGroup.find(".error-message").html(msg);
-	}
-
-	const loading = (currentForm, show) => {
-		if (show) {
-			$(`${currentForm} .mp-loading`).show();
-			disableFormSubmit(currentForm)
-			return;
-		}
-		$(`${currentForm} .mp-loading`).hide();
-		enableFormSubmit(currentForm)
-	}
-
-	/* ----------------------------------------------- */
-
-
 	const formId = '#mp-signup-form';
 
-	const userInput = $(formId).find('input[name="log"]');
-	const passInput = $(formId).find('input[name="pwd"]');
+	const fnameInput  = $(formId).find('input[name="first_name"]');
+	const lnameInput  = $(formId).find('input[name="last_name"]');
+	const orgInput    = $(formId).find('input[name="organization"]');
+	const phoneInput  = $(formId).find('input[name="phone"]');
+	const userInput   = $(formId).find('input[name="log"]');
+	const passInput   = $(formId).find('input[name="pwd"]');
 	const confirmPassInput = $(formId).find('input[name="confirm_pwd"]');
 	const nonce = $(formId).find('input[name="nonce"]');
 
@@ -55,7 +23,7 @@ jQuery(function ($) {
 		e.preventDefault();
 
 		if (!userInput.val() || !passInput.val() || !confirmPassInput.val()) {
-			$(formId).find('.signup-error').html('Please fill all fields').show();
+			$(formId).find('.top-error').html('Please fill all fields').show();
 			return;
 		}
 
@@ -63,6 +31,10 @@ jQuery(function ($) {
 			'action': 'signup',
 			'log': userInput.val(),
 			'pwd': passInput.val(),
+			'phone': phoneInput.val(),
+			'organization': orgInput.val(),
+			'first_name': fnameInput.val(),
+			'last_name': lnameInput.val(),
 			'nonce': nonce.val()
 		};
 
@@ -80,10 +52,15 @@ jQuery(function ($) {
 					userInput.val('');
 					passInput.val('');
 					confirmPassInput.val('');
+					orgInput.val('');
+					fnameInput.val('');
+					lnameInput.val('');
+					phoneInput.val('');
 					loading(formId, false);
+					$("html, body").animate({ scrollTop: 0 }, "fast");
 					return;
 				}
-				$(formId).find('.signup-error').html(`${response.data.message}`).show();
+				$(formId).find('.top-error').html(`${response.data.message}`).show();
 				// reset form
 				userInput.val('');
 				passInput.val('');
@@ -104,6 +81,76 @@ jQuery(function ($) {
 	* Signup Validation
 	* 
 	--------------------------------- */
+	fnameInput.on('blur', function(){
+		const fname = $(this).val();
+		if (!fname) {
+			showErrorMessage($(this), 'First Name is required.');
+			disableFormSubmit(formId);
+			return;
+		}
+		if (fname.length < 3) {
+			showErrorMessage($(this), 'First Name is too short');
+			disableFormSubmit(formId);
+			return;
+		}
+		resetForm(formId);
+		$(this).closest('.input-group').removeClass('error');
+		$(this).closest('.input-group').find('.error-message').html('');
+		enableFormSubmit(formId);
+	})
+
+	lnameInput.on('blur', function(){
+		const lname = $(this).val();
+		if (!lname) {
+			showErrorMessage($(this), 'Last Name is required.');
+			disableFormSubmit(formId);
+			return;
+		}
+		if (lname.length < 3) {
+			showErrorMessage($(this), 'Last Name is too short');
+			disableFormSubmit(formId);
+			return;
+		}
+		resetForm(formId);
+		$(this).closest('.input-group').removeClass('error');
+		$(this).closest('.input-group').find('.error-message').html('');
+		enableFormSubmit(formId);
+	})
+
+
+	orgInput.on('blur', function(){
+		const organization = $(this).val();
+		if (!organization) {
+			showErrorMessage($(this), 'Organization Name is required.');
+			disableFormSubmit(formId);
+			return;
+		}
+		if (organization.length < 3) {
+			showErrorMessage($(this), 'Organization Name is too short');
+			disableFormSubmit(formId);
+			return;
+		}
+		resetForm(formId);
+		$(this).closest('.input-group').removeClass('error');
+		$(this).closest('.input-group').find('.error-message').html('');
+		enableFormSubmit(formId);
+	})
+
+
+	phoneInput.on('blur', function(){
+		const phone = $(this).val();
+		if(!phone) return;
+		if(!validatePhone(phone)) {
+			showErrorMessage($(this), 'Phone number must be 5-8 digits.');
+			disableFormSubmit(formId);
+			return;
+		}
+		resetForm(formId);
+		$(this).closest('.input-group').removeClass('error');
+		$(this).closest('.input-group').find('.error-message').html('');
+		enableFormSubmit(formId);
+	})
+
 	// on blur validate login input text
 	userInput.on('blur', function () {
 

@@ -1,46 +1,11 @@
+import { disableFormSubmit, enableFormSubmit, loading, resetForm, showErrorMessage } from "../helper";
+
 /* ------------------------------- *
  * 
  * Login Ajax
  * 
  --------------------------------- */
 jQuery(function ($) {
-
-	/* -----------------Helper----------------- */
-
-	const disableFormSubmit = (formId) => {
-		const submitBtn = document.querySelector(`${formId} button[type='submit']`)
-		submitBtn.disabled = true;
-	}
-
-	const enableFormSubmit = (formId) => {
-		const form = document.querySelector(formId + ' .input-group');
-		if (form.classList.contains('error')) return;
-		const submitBtn = document.querySelector(formId + ' button[type="submit"]');
-		submitBtn.disabled = false;
-	}
-
-	const resetForm = (formId) => {
-		const loginError = document.querySelector(`${formId} .login-error`);
-		loginError.style.display = 'none';
-	}
-
-	const showErrorMessage = (ele, msg) => {
-		const inputGroup = ele.closest(".input-group");
-		inputGroup.addClass('error');
-		inputGroup.find(".error-message").html(msg);
-	}
-
-	const loading = (currentForm, show) => {
-		if (show) {
-			$(`${currentForm} .mp-loading`).show();
-			disableFormSubmit(currentForm)
-			return;
-		}
-		$(`${currentForm} .mp-loading`).hide();
-		enableFormSubmit(currentForm)
-	}
-
-	/* ----------------------------------------------- */
 
 	const formId = '#mp-login-form';
 
@@ -76,7 +41,7 @@ jQuery(function ($) {
 					window.location.href = response.data.redirect_to;
 					return;
 				}
-				$(formId).find('.login-error').html(`${response.data.message}`).show();
+				$(formId).find('.top-error').html(`${response.data.message}`).show();
 				loading(formId, false);
 			},
 			error: function (response) {

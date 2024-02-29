@@ -4,6 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
+    "postbuild": "node iife.js",
     "build": "vite build",
     "watch": "vite build --watch"
   },
