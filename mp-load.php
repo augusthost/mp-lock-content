@@ -9,6 +9,7 @@ require_once MP_LOCK_CONTENT_PATH . '/services/class-middleware.php';
 require_once MP_LOCK_CONTENT_PATH . '/services/class-message.php';
 require_once MP_LOCK_CONTENT_PATH . '/services/class-email.php';
 
+require_once MP_LOCK_CONTENT_HOOKS_DIR . '/class-send-test-email-ajax.php';
 require_once MP_LOCK_CONTENT_HOOKS_DIR . '/class-enqueue-scripts.php';
 require_once MP_LOCK_CONTENT_HOOKS_DIR . '/class-signup-ajax.php';
 require_once MP_LOCK_CONTENT_HOOKS_DIR . '/class-login-ajax.php';
