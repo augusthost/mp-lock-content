@@ -8,9 +8,26 @@ if (!defined('ABSPATH')) {
 
 global $mppluginSetting; // we'll need this below
 
-$emailService   = new MPEmailService();
-$email_template = $emailService->getTemplate('approved');
-$welcome_email  = $email_template['mail_body'];
+$emailService  = new MPEmailService();
+$welcome_email = $emailService->getTemplate('approved');
+$welcome_email = $welcome_email['mail_body'];
+
+
+$verify_email = $emailService->getTemplate('verification');
+$verify_email = $verify_email['mail_body'];
+
+
+$forgot_email = $emailService->getTemplate('forgot_pass');
+$forgot_email = $forgot_email['mail_body'];
+
+
+function get_test_email_template($type){
+    return '<div class="my-2 flex gap-2 test-email">
+    <input type="text" name="test_email" placeholder="example@gmail.com" data-template="'.$type.'">
+    <button type="button" class="send-test button-primary">Send Test</button>
+    <p><small>Please save settings before sending test.</small></p>
+    </div>';    
+}
 ?>
 <style>
     .wrapper {
@@ -85,11 +102,11 @@ $welcome_email  = $email_template['mail_body'];
 					<td>
 						<label>
                             <select name="<?= $mppluginSetting->get_field_name('locked_cat'); ?>" id="">
+                            <option class="none">None</option>
                             <?php
                             $categories = get_categories();
                             foreach($categories as $category):
                             ?>
-                            <option class="none">None</option>
                             <option value="<?= $category->term_id; ?>"  <?= $mppluginSetting->get_setting('locked_cat') == $category->term_id ? 'selected' : ''; ?> ><?= $category->name; ?></option>
                             <?php endforeach; ?>
                            </select>
@@ -121,20 +138,55 @@ $welcome_email  = $email_template['mail_body'];
             <h4><a href="<?= $mppluginSetting->get_customizer_link(); ?>">Email Template</a></h4>
             <hr class="my-8">
             <h4>Email Content</h4>
-             <select name="email-content" id="email-content">
+             <select name="email-content" id="email-content" style="max-width:400px;width:100%;">
              <option default>Select</option>
              <option value="welcome">Welcome</option>
+             <option value="verification">Verification</option>
+             <option value="forgot_pass">Forgot Password</option>
              </select>
+
+
+             <!-- Welcome -->
              <div class="my-8 hidden" style="max-width:400px;width:100%;" data-target="welcome">
                 <div class="my-2">
                     <h2 class="text-2xl">Welcome Email</h2>
                 </div>
                 <div class="my-2">
-                    <input type="text" name="<?= $mppluginSetting->get_field_name('mail_subject'); ?>" class="w-full" style="max-width:100%; width:100%;" value="<?= !empty($mppluginSetting->get_setting('mail_subject')) ? $mppluginSetting->get_setting('mail_subject') : 'Welcome to MPEVCA'; ?>" placeholder="Email Subject">
+                    <input type="text" name="<?= $mppluginSetting->get_field_name('welcome_mail_subject'); ?>" class="w-full" style="max-width:100%; width:100%;" value="<?= !empty($mppluginSetting->get_setting('welcome_mail_subject')) ? $mppluginSetting->get_setting('welcome_mail_subject') : 'Welcome to MPEVCA'; ?>" placeholder="Email Subject">
                 </div>
                 <div class="my-2">
-                    <textarea rows="4" name="<?= $mppluginSetting->get_field_name('mail_body'); ?>" class="w-full" style="max-width:100%; width:100%;" placeholder="Email Text"><?= !empty($mppluginSetting->get_setting('mail_body')) ? $mppluginSetting->get_setting('mail_body') : $welcome_email; ?></textarea>
+                    <textarea rows="4" name="<?= $mppluginSetting->get_field_name('welcome_mail_body'); ?>" class="w-full" style="max-width:100%; width:100%; min-height:200px;" placeholder="Email Text"><?= !empty($mppluginSetting->get_setting('welcome_mail_body')) ? $mppluginSetting->get_setting('welcome_mail_body') : $welcome_email; ?></textarea>
                 </div>
+                <?= get_test_email_template('welcome'); ?>
+             </div>
+
+             <!-- Verification -->
+             <div class="my-8 hidden" style="max-width:400px;width:100%;" data-target="verification">
+                <div class="my-2">
+                    <h2 class="text-2xl">Verification Email</h2>
+                </div>
+                <div class="my-2">
+                    <input type="text" name="<?= $mppluginSetting->get_field_name('verification_mail_subject'); ?>" class="w-full" style="max-width:100%; width:100%;" value="<?= !empty($mppluginSetting->get_setting('verification_mail_subject')) ? $mppluginSetting->get_setting('verification_mail_subject') : 'Email Verification'; ?>" placeholder="Email Subject">
+                </div>
+                <div class="my-2">
+                    <textarea rows="4" name="<?= $mppluginSetting->get_field_name('verification_mail_body'); ?>" class="w-full" style="max-width:100%; width:100%; min-height:200px;" placeholder="Email Text"><?= !empty($mppluginSetting->get_setting('verification_mail_body')) ? $mppluginSetting->get_setting('verification_mail_body') : $verify_email; ?></textarea>
+                </div>
+                <?= get_test_email_template('verification'); ?>
+             </div>
+
+
+             <!-- Forget Password -->
+             <div class="my-8 hidden" style="max-width:400px;width:100%;" data-target="forgot_pass">
+                <div class="my-2">
+                    <h2 class="text-2xl">Forgot Password</h2>
+                </div>
+                <div class="my-2">
+                    <input type="text" name="<?= $mppluginSetting->get_field_name('forgot_pass_mail_subject'); ?>" class="w-full" style="max-width:100%; width:100%;" value="<?= !empty($mppluginSetting->get_setting('forgot_pass_mail_subject')) ? $mppluginSetting->get_setting('forgot_pass_mail_subject') : 'Email Verification'; ?>" placeholder="Email Subject">
+                </div>
+                <div class="my-2">
+                    <textarea rows="4" name="<?= $mppluginSetting->get_field_name('forgot_pass_mail_body'); ?>" class="w-full" style="max-width:100%; width:100%; min-height:200px;" placeholder="Email Text"><?= !empty($mppluginSetting->get_setting('forgot_pass_mail_body')) ? $mppluginSetting->get_setting('forgot_pass_mail_body') : $forgot_email; ?></textarea>
+                </div>
+                <?= get_test_email_template('forgot_pass'); ?>
              </div>
         </div>
     </div>
@@ -145,7 +197,11 @@ $welcome_email  = $email_template['mail_body'];
 
 <script>
 
+    class VToast{constructor(t){this.defaultOption={duration:2e3,delay:0},this.toastBottom=0,this.defaultStyle="transition:all ease 0.4s; padding:10px; border-radius:4px; position:fixed; z-index:999; box-shadow:0 1px 10px #ddd;",this.options=Object.assign(this.defaultOption,t)}success(t,o){this.showToast("success",t,o)}error(t,o){this.showToast("error",t,o)}info(t,o){this.showToast("info",t,o)}warning(t,o){this.showToast("warning",t,o)}randomId(){let t="",o="abcdefghijklmnopqrstuvwxyz",s=o.length;for(let i=0;i<5;i++)t+=o.charAt(Math.floor(Math.random()*s));return t}caculateToastsHeight(){let t=document.querySelectorAll(".v-toast"),o=0;t.forEach(t=>{o+=t.offsetHeight+20}),this.toastBottom=`bottom:${o+20}px`}getToastColor(t){return({success:{color:"#fff",background:"#17bc6d"},error:{color:"#fff",background:"#e94f75"},warning:{color:"#232323",background:"#ffe16c"},info:{color:"#232323",background:"#b7c1ff;"}})[t]}showToast(t,o,s=null){s&&(this.options=Object.assign(this.defaultOption,s)),this.msg=o,this.toastColor=this.getToastColor(t),this.caculateToastsHeight(),this.initToast()}initToast(){this.showStyle=`${this.defaultStyle} ${this.toastBottom}; right:10px; color:${this.toastColor.color}; background:${this.toastColor.background};`,this.hideStyle=`${this.defaultStyle} bottom:-200px; right:10px; color:${this.toastColor.color}; background:${this.toastColor.background};`;let t=document.createElement("div"),o=this.randomId();t.id=o,t.className="v-toast",t.setAttribute("style",this.hideStyle),t.innerText=this.msg,document.body.append(t);let s=document.querySelector(`#${o}`);setTimeout(()=>{s.setAttribute("style",this.showStyle)},this.options.delay),setTimeout(()=>{s.setAttribute("style",this.hideStyle)},this.options.duration),setTimeout(()=>{s.remove()},this.options.duration+100)}}
+
     jQuery(function($){
+
+        const vtoast = new VToast();
 
         const tabUI = () =>{
 
@@ -186,7 +242,43 @@ $welcome_email  = $email_template['mail_body'];
         // Email Selector 
         $("#email-content").on("change", function(){
             const target = $(this).val();
-            $(`div[data-target='${target}']`).toggleClass('hidden');
+            $('div[data-target]').addClass('hidden');
+            if(target === 'Select'){
+                return;
+            }
+            $(`div[data-target='${target}']`).removeClass('hidden');
+        })
+
+
+        // Send test
+        $('.send-test').on('click', function(e){
+            e.preventDefault();
+
+            $test_email =  $(this).closest('.test-email').find('input');
+           
+            if(!$test_email.val()){
+                vtoast.error('Please add test email.')
+                return;
+            }
+
+            const data = {
+                'action': 'test_email',
+                'email': $test_email.val(),
+                'template': $test_email.data('template')
+            };
+
+            $.ajax({
+                type: 'POST',
+                url: '/wp-admin/admin-ajax.php',
+                data: data,
+                success: function (response) {
+                    if (!response.success) {
+                        vtoast.error('Failed to send test email.')
+                        return;
+                    }
+                    vtoast.success('Successfully sent test email.')
+                }
+            });
         })
 
 

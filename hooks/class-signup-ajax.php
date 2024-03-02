@@ -2,6 +2,8 @@
 
 namespace MP\hooks;
 
+use MP\services\MPEmailService;
+
 if (! defined('ABSPATH')) {
     exit; // Exit if accessed directly.
 }
@@ -29,15 +31,13 @@ class MPSignupAjax
 
         update_user_meta($user_id, 'verification_code', $verification_code);
 
-        $to        = $this->email;
-        $subject   = 'Email Verification';
-        $message   = 'Welcome to '.get_bloginfo('name') . '.<br /><br />';
-        $message   .= 'Please click on the following link to verify your email: <br />';
-        $message  .= '<a href="' . home_url() . '?verify_code=' . $verification_code . '">Verify Email</a><br /><br />';
-        $message  .= 'Best Regards,<br />';
-        $message  .= get_bloginfo('name');
-        $headers[] = 'Content-Type: text/html; charset=UTF-8';
-        wp_mail($to, $subject, $message, $headers);
+        $verification_link = home_url() . '?verify_code=' . $verification_code;
+        $args = [
+            'site_name' => get_bloginfo('name'),
+            'verification_link' => $verification_link
+        ];
+        
+        (new MPEmailService())->send($this->email,'verification', $args);
 
     }
 

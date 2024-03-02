@@ -26,14 +26,13 @@ class MPSendEmailAfterEnable{
         if ($email_sent == '1') {
             return; // Email already sent, so exit the function
         }
+
+        $args = [
+            'username' => $username,
+            'login_link' => home_url('/login')
+        ];
         
-        $template  = (new MPEmailService())->getTemplate('approved');
-        $subject   = $template['mail_subject']; // Email subject
-        $message   = preg_replace('/!!username!!/', $username, $template['mail_body']);
-        $message   = preg_replace('/!!login_link!!/', home_url('/login') , $message);
-        $headers[] = 'Content-Type: text/plain; charset=UTF-8'; // Set email content type
-        // Send the email
-        wp_mail($to, $subject, $message, $headers);
+        (new MPEmailService())->send($to,'welcome', $args);
         
         // Update user meta to indicate that the email has been sent
         update_user_meta($user_id, 'send_user_approved_email', '1');
