@@ -76,6 +76,28 @@ function get_test_email_template($type){
     min-width: 300px;
     padding:5px;
 }
+.ml-4{
+    margin-left:1rem !important;
+}
+
+/** Tailwind Generated */
+@media (min-width: 768px){
+  .md\:col-span-6{
+    grid-column: span 6 / span 6
+  }
+
+  .md\:grid{
+    display: grid
+  }
+
+  .md\:grid-cols-12{
+    grid-template-columns: repeat(12, minmax(0, 1fr))
+  }
+
+  .md\:gap-4{
+    gap: 1rem
+  }
+}
 
 </style>
 
@@ -138,7 +160,7 @@ function get_test_email_template($type){
             <h4><a href="<?= $mppluginSetting->get_customizer_link(); ?>">Email Template</a></h4>
             <hr class="my-8">
             <h4>Email Content</h4>
-             <select name="email-content" id="email-content" style="max-width:400px;width:100%;">
+             <select name="email-content" id="email-content" style="max-width:492px;width:100%;">
              <option default>Select</option>
              <option value="welcome">Welcome</option>
              <option value="verification">Verification</option>
@@ -147,51 +169,92 @@ function get_test_email_template($type){
 
 
              <!-- Welcome -->
-             <div class="my-8 hidden" style="max-width:400px;width:100%;" data-target="welcome">
-                <div class="my-2">
-                    <h2 class="text-2xl">Welcome Email</h2>
+             <div class="my-8 hidden" style="max-width:1000px;width:100%;" data-target="welcome">
+                <div class="md:grid md:grid-cols-12 md:gap-4">
+                    <div class="md:col-span-6">
+                        <div class="my-2">
+                            <h2 class="text-2xl">Welcome Email</h2>
+                        </div>
+                        <div class="my-2">
+                            <input type="text" name="<?= $mppluginSetting->get_field_name('welcome_mail_subject'); ?>" class="w-full" style="max-width:100%; width:100%;" value="<?= !empty($mppluginSetting->get_setting('welcome_mail_subject')) ? $mppluginSetting->get_setting('welcome_mail_subject') : 'Welcome to MPEVCA'; ?>" placeholder="Email Subject">
+                        </div>
+                        <div class="my-2">
+                            <textarea rows="4" name="<?= $mppluginSetting->get_field_name('welcome_mail_body'); ?>" class="w-full" style="max-width:100%; width:100%; min-height:200px;" placeholder="Email Text"><?= !empty($mppluginSetting->get_setting('welcome_mail_body')) ? $mppluginSetting->get_setting('welcome_mail_body') : $welcome_email; ?></textarea>
+                        </div>
+                        <?= get_test_email_template('welcome'); ?>
+                    </div>
+                    <div class="md:col-span-6">
+                       <h3 style="margin-top:120px;font-weight:bolder;">Keywords</h3>
+                       <div><b>Receiver</b></div>
+                       <div>!!email!!, !!username!!, !!first_name!!, !!last_name!!, !!phone!!, !!organization!!</div>
+                       <div class="my-2"></div>
+                       <div><b>Global</b></div>
+                       <div>!!site_name!!, !!site_description!!, !!web_url!!, !!login_link!!</div>
+                    </div>
                 </div>
-                <div class="my-2">
-                    <input type="text" name="<?= $mppluginSetting->get_field_name('welcome_mail_subject'); ?>" class="w-full" style="max-width:100%; width:100%;" value="<?= !empty($mppluginSetting->get_setting('welcome_mail_subject')) ? $mppluginSetting->get_setting('welcome_mail_subject') : 'Welcome to MPEVCA'; ?>" placeholder="Email Subject">
-                </div>
-                <div class="my-2">
-                    <textarea rows="4" name="<?= $mppluginSetting->get_field_name('welcome_mail_body'); ?>" class="w-full" style="max-width:100%; width:100%; min-height:200px;" placeholder="Email Text"><?= !empty($mppluginSetting->get_setting('welcome_mail_body')) ? $mppluginSetting->get_setting('welcome_mail_body') : $welcome_email; ?></textarea>
-                </div>
-                <?= get_test_email_template('welcome'); ?>
              </div>
 
              <!-- Verification -->
-             <div class="my-8 hidden" style="max-width:400px;width:100%;" data-target="verification">
-                <div class="my-2">
-                    <h2 class="text-2xl">Verification Email</h2>
+             <div class="my-8 hidden" style="max-width:1000px;width:100%;" data-target="verification">
+                <div class="md:grid md:grid-cols-12 md:gap-4">
+                    <div class="md:col-span-6">
+                        <div class="my-2">
+                            <h2 class="text-2xl">Verification Email</h2>
+                        </div>
+                        <div class="my-2">
+                            <input type="text" name="<?= $mppluginSetting->get_field_name('verification_mail_subject'); ?>" class="w-full" style="max-width:100%; width:100%;" value="<?= !empty($mppluginSetting->get_setting('verification_mail_subject')) ? $mppluginSetting->get_setting('verification_mail_subject') : 'Email Verification'; ?>" placeholder="Email Subject">
+                        </div>
+                        <div class="my-2">
+                            <textarea rows="4" name="<?= $mppluginSetting->get_field_name('verification_mail_body'); ?>" class="w-full" style="max-width:100%; width:100%; min-height:200px;" placeholder="Email Text"><?= !empty($mppluginSetting->get_setting('verification_mail_body')) ? $mppluginSetting->get_setting('verification_mail_body') : $verify_email; ?></textarea>
+                        </div>
+                        <?= get_test_email_template('verification'); ?>
+                    </div>
+                    <div class="md:col-span-6">
+                       <h3 style="margin-top:120px;font-weight:bolder;">Keywords</h3>
+                       <div><b>Main</b></div>
+                       <div>!!verification_link!!</div>
+                       <div class="my-2"></div>
+                       <div><b>Receiver</b></div>
+                       <div>!!email!!, !!username!!, !!first_name!!, !!last_name!!, !!phone!!, !!organization!!</div>
+                       <div class="my-2"></div>
+                       <div><b>Global</b></div>
+                       <div>!!site_name!!, !!site_description!!, !!web_url!!, !!login_link!!</div>
+                    </div>
                 </div>
-                <div class="my-2">
-                    <input type="text" name="<?= $mppluginSetting->get_field_name('verification_mail_subject'); ?>" class="w-full" style="max-width:100%; width:100%;" value="<?= !empty($mppluginSetting->get_setting('verification_mail_subject')) ? $mppluginSetting->get_setting('verification_mail_subject') : 'Email Verification'; ?>" placeholder="Email Subject">
-                </div>
-                <div class="my-2">
-                    <textarea rows="4" name="<?= $mppluginSetting->get_field_name('verification_mail_body'); ?>" class="w-full" style="max-width:100%; width:100%; min-height:200px;" placeholder="Email Text"><?= !empty($mppluginSetting->get_setting('verification_mail_body')) ? $mppluginSetting->get_setting('verification_mail_body') : $verify_email; ?></textarea>
-                </div>
-                <?= get_test_email_template('verification'); ?>
              </div>
 
 
              <!-- Forget Password -->
-             <div class="my-8 hidden" style="max-width:400px;width:100%;" data-target="forgot_pass">
-                <div class="my-2">
-                    <h2 class="text-2xl">Forgot Password</h2>
-                </div>
-                <div class="my-2">
-                    <input type="text" name="<?= $mppluginSetting->get_field_name('forgot_pass_mail_subject'); ?>" class="w-full" style="max-width:100%; width:100%;" value="<?= !empty($mppluginSetting->get_setting('forgot_pass_mail_subject')) ? $mppluginSetting->get_setting('forgot_pass_mail_subject') : 'Email Verification'; ?>" placeholder="Email Subject">
-                </div>
-                <div class="my-2">
-                    <textarea rows="4" name="<?= $mppluginSetting->get_field_name('forgot_pass_mail_body'); ?>" class="w-full" style="max-width:100%; width:100%; min-height:200px;" placeholder="Email Text"><?= !empty($mppluginSetting->get_setting('forgot_pass_mail_body')) ? $mppluginSetting->get_setting('forgot_pass_mail_body') : $forgot_email; ?></textarea>
-                </div>
-                <?= get_test_email_template('forgot_pass'); ?>
+             <div class="my-8 hidden" style="max-width:1000px;width:100%;" data-target="forgot_pass">
+                <div class="md:grid md:grid-cols-12 md:gap-4">
+                    <div class="md:col-span-6">
+                        <div class="my-2">
+                            <h2 class="text-2xl">Forgot Password</h2>
+                        </div>
+                        <div class="my-2">
+                            <input type="text" name="<?= $mppluginSetting->get_field_name('forgot_pass_mail_subject'); ?>" class="w-full" style="max-width:100%; width:100%;" value="<?= !empty($mppluginSetting->get_setting('forgot_pass_mail_subject')) ? $mppluginSetting->get_setting('forgot_pass_mail_subject') : 'Email Verification'; ?>" placeholder="Email Subject">
+                        </div>
+                        <div class="my-2">
+                            <textarea rows="4" name="<?= $mppluginSetting->get_field_name('forgot_pass_mail_body'); ?>" class="w-full" style="max-width:100%; width:100%; min-height:200px;" placeholder="Email Text"><?= !empty($mppluginSetting->get_setting('forgot_pass_mail_body')) ? $mppluginSetting->get_setting('forgot_pass_mail_body') : $forgot_email; ?></textarea>
+                        </div>
+                        <?= get_test_email_template('forgot_pass'); ?>
+                    </div>
+                    <div class="md:col-span-6">
+                       <h3 style="margin-top:120px;font-weight:bolder;">Keywords</h3>
+                       <div><b>Main :</b></div>
+                       <div>!!reset_url!!</div>
+                       <div class="my-2"></div>
+                       <div><b>Receiver :</b></div>
+                       <div>!!email!!, !!username!!, !!first_name!!, !!last_name!!, !!phone!!, !!organization!!</div>
+                       <div class="my-2"></div>
+                       <div><b>Global :</b></div>
+                       <div>!!site_name!!, !!site_description!!, !!web_url!!, !!login_link!!</div>
+                    </div>
              </div>
         </div>
     </div>
 
-        <input class="button-primary save-setting-btn" type="submit" value="Save Settings" />
+        <input class="ml-4 button-primary save-setting-btn" type="submit" value="Save Settings" />
 	</form>
 </div>
 

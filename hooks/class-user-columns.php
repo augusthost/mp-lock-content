@@ -28,9 +28,6 @@ class MPCustomUserColumn{
             return $user_info->organization;
         }
 
-        if ( 'organization' == $column_name ) {
-            return $user_info->organization;
-        }
         return $value;
     }
 
