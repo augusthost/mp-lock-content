@@ -60,6 +60,11 @@ class MPFilterContent{
 
         // Allow
         if(MPMiddleware::isUserCanRead()){
+            // remove [lock_content] only when user can read
+            if (strpos($content, '[lock_content]') !== false) {
+                $content = str_replace('[lock_content]', '', $content);
+                $content = str_replace('[/lock_content]', '', $content);
+            }
             return $content;
         }
 
@@ -85,8 +90,22 @@ class MPFilterContent{
         return $result;
     }
 
+    protected function removeShortcodeContent($content) {
+        $pattern = '/\[lock_content\](.*?)\[\/lock_content\]/s';
+        $replacement = '';
+        $content = preg_replace($pattern, $replacement, $content);
+        return $content;
+    }
+
     protected function getPreviewContent($content){
         if(empty($content)) return '';
+
+        // restrict with shortcode
+        if (strpos($content, '[lock_content]') !== false) {
+            return $this->removeShortcodeContent($content);
+        }
+
+        // fallback default restrict
         global $mppluginSetting;
         $num = $mppluginSetting->get_setting('limit_paragraph_num') ? $mppluginSetting->get_setting('limit_paragraph_num') : 4;
 

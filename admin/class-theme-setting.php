@@ -20,7 +20,6 @@ class MPPluginSetting extends WPSetting
 
         // Actions
         add_action('admin_menu', [$this, 'menu']);
-        add_action('admin_init', [$this, 'ah_bot_redirect']);
     }
 
     /**
@@ -49,14 +48,6 @@ class MPPluginSetting extends WPSetting
     public function settings_page() : void
     {
         require_once( MP_LOCK_CONTENT_PATH . '/view/admin/settings-page.php');
-    }
-
-
-    function ah_bot_redirect() {
-        if (isset($_GET['page']) && $_GET['page'] === 'ah-bot') {
-            wp_redirect(admin_url('edit.php?post_type=ah_form'));
-            exit;
-        }
     }
 
 
