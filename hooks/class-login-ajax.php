@@ -24,7 +24,7 @@ class MPLoginAjax
         $user_login  = sanitize_text_field($_POST['log']);
         $user_pass   = sanitize_text_field($_POST['pwd']);
         $rememberme  = isset($_POST['rememberme']) ? sanitize_text_field($_POST['rememberme']) : false;
-        $redirect_to = isset($_POST['redirect_to']) ? sanitize_text_field($_POST['redirect_to']) : '';
+        $redirect_to = isset($_POST['redirect_to']) ? sanitize_text_field($_POST['redirect_to']) : '/';
         
         $user = wp_signon(
             [
