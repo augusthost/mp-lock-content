@@ -14,6 +14,12 @@ class MPFilterContent{
     }
 
     protected function getLockLayer(){
+
+        $redirect_to = '';
+        if(!is_user_logged_in() && is_single()){
+            $redirect_to = wp_make_link_relative(get_permalink());
+        }
+
         ob_start();
         require_once MP_LOCK_CONTENT_PATH . '/view/lock-layer.php';
         return ob_get_clean();

@@ -14,7 +14,7 @@
                 <div class="error-message text-[1.2rem] text-red-500"></div>
 			</div>
 			<div class="input-group">
-                <input type="hidden" name="redirect_to" value="<?= home_url(); ?>">
+                <input type="hidden" name="redirect_to" value="<?= isset($_GET['r']) ? $_GET['r'] : ''; ?>">
 				<button type="submit" class="block border-0 w-full bg-[#f7b134] rounded text-white py-2 mt-4 mb-2"> Login </button>
 				<p class="py-3 text-center !mb-0">
 					<a class="text-gray-400" href="/login?action=forgot_pass">

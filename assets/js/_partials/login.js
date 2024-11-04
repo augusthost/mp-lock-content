@@ -1,5 +1,20 @@
 import { disableFormSubmit, enableFormSubmit, loading, resetForm, showErrorMessage } from "../helper";
 
+
+const validateRedirectUrl = (redirectUrl) =>{
+	const currentOrigin = window.location.origin;
+	// Validate the URL
+	const isSameDomain = redirectUrl.startsWith(currentOrigin);
+	const isSafeUrl = !/[<>]/.test(redirectUrl) && !/^javascript:/i.test(redirectUrl);
+
+	if (isSameDomain && isSafeUrl) {
+		window.location.href = redirectUrl;
+	} else {
+		window.location.href = '/';
+		console.warn('Unsafe redirect URL detected:', redirectUrl);
+	}
+}
+
 /* ------------------------------- *
  * 
  * Login Ajax
@@ -38,7 +53,7 @@ jQuery(function ($) {
 				}
 
 				if (response.success) {
-					window.location.href = response.data.redirect_to;
+					validateRedirectUrl(response.data.redirect_to);
 					return;
 				}
 				$(formId).find('.top-error').html(`${response.data.message}`).show();
