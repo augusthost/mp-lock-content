@@ -17,7 +17,7 @@ class MPFilterContent{
 
         $redirect_to = '';
         if(!is_user_logged_in() && is_single()){
-            $redirect_to = wp_make_link_relative(get_permalink());
+            $redirect_to = get_permalink();
         }
 
         ob_start();
